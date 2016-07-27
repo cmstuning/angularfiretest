@@ -1,0 +1,67 @@
+
+    <div class="row">
+     
+  
+    <div class="col-sm-6">
+ <h1>
+    {{title}}
+  </h1>
+<form>
+  <div class="form-group">
+  <div class="input-group">
+      <input type="text" class="form-control" placeholder="Add a new hero" #heroname>
+      <span class="input-group-btn">
+        <button class="btn btn-success" type="button" (click)="addHero({name: heroname.value})">Add!</button>
+      </span>
+    </div><!-- /input-group -->
+  </div>
+</form>
+
+  
+<ul class="list-group">
+<li *ngFor="let hero of heroes | async" class="list-group-item" >
+  <span class="badge">{{hero.$key}}</span> {{hero.name}}
+  <div>
+<button (click)="onSelect(hero)" class="btn btn-success btn-xs">Edit</button>
+<button (click)="deleteHero(hero.$key)" class="btn btn-danger btn-xs">Delete</button>
+
+  </div>
+  
+</li>
+</ul>
+
+
+  
+</div>
+
+<div class="col-sm-6" *ngIf="isEditing">
+ 
+  <h2>Edit Hero</h2>
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Edit {{selectedHero.name}}</div>
+  
+
+  <!-- List group -->
+  <ul class="list-group">
+    <li class="list-group-item">
+     <label>id: </label> {{selectedHero.$key}}
+    </li>
+    <li class="list-group-item">
+<label>name: </label> {{selectedHero.name}}
+    </li>
+  </ul>
+  <div class="panel-body">
+    <div class="input-group">
+      <input type="text" class="form-control" [(ngModel)]="selectedHero.name">
+      <span class="input-group-btn">
+        <button class="btn btn-success" type="button" (click)="updateHero(selectedHero)">Save Hero!</button>
+      </span>
+    </div><!-- /input-group -->
+  </div>
+
+</div>
+
+</div> 
+  
+</div>

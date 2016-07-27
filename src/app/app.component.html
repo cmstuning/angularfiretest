@@ -1,3 +1,24 @@
-<h1>
-  {{title}}
-</h1>
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand">{{title}}</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li ><a [routerLink]="['/']" routerLinkActive="active">Home</a></li>
+        <li ><a [routerLink]="['/heroes']" routerLinkActive="active">Heroes</a></li>
+    </ul>
+    
+     <form class="navbar-form navbar-right">
+        
+        <button type="submit" class="btn btn-success" (click)="login()" *ngIf!="(af.auth | async)?.uid">Login With Google</button>
+        <button type="submit" class="btn btn-danger" (click)="logout()" *ngIf="(af.auth | async)?.uid">Logout</button>
+      </form>
+     <p class="navbar-text navbar-right" *ngIf="(af.auth | async)?.uid">Signed in as <span class="label label-info">{{ (af.auth | async)?.uid }}</span></p>
+  </div>
+</nav>
+
+<div class="container">
+
+  <router-outlet></router-outlet>
+  
+</div>

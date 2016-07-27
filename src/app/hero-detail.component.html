@@ -1,0 +1,11 @@
+<div class="col-sm-4" *ngIf="selectedHero">
+  {{selectedHero.name}}
+ <div *ngFor="let selected of selectedHero | async">
+  <h2>{{selected.name}} details!</h2>
+<div><label>id: </label>{{selected.id}}</div>
+<div>
+    <label>name: </label>
+    <input [(ngModel)]="selected.name" placeholder="name"/>
+</div>
+</div> 
+  </div>
