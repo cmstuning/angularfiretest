@@ -13,7 +13,8 @@
         <button type="submit" class="btn btn-success" (click)="login()" *ngIf!="(af.auth | async)?.uid">Login With Google</button>
         <button type="submit" class="btn btn-danger" (click)="logout()" *ngIf="(af.auth | async)?.uid">Logout</button>
       </form>
-     <p class="navbar-text navbar-right" *ngIf="(af.auth | async)?.uid">Signed in as <span class="label label-info">{{ (af.auth | async)?.uid }}</span></p>
+     <p class="navbar-text navbar-right" *ngIf="(af.auth | async)?.uid">Signed in as <span class="label label-info">{{usr?.auth.displayName}}</span></p>
+  
   </div>
 </nav>
 

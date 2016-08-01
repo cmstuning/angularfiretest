@@ -20,11 +20,10 @@ import { Router } from '@angular/router';
 
 export class HeroesComponent implements OnInit {
 
-title = "My Heroes"
+title = "My Heroes";
+hero:Hero;
  heroes;
  selectedHero;
- isEditing:boolean = false;
- //heroes: Hero[];
 
  constructor(private _router: Router, private _heroService: HeroService) {
 
@@ -36,39 +35,19 @@ addHero(newHero: Hero) {
 
   updateHero(selectedHero) {
    this._heroService.updateHero(selectedHero.$key, selectedHero);
-   this.isEditing = false;
    
   }
   deleteHero(key: string) {    
     this._heroService.deleteHero(key); 
   }
 
-//selectedHero: Hero;
-hero:Hero;
-
-/*constructor(
-    private _router: Router,
-    
-    private _heroService: HeroService
-
-) { } */
-
   ngOnInit() {
-    
-    //  this.heroes = af.database.list('/heroes');
-   // this.getHeroes();
-    this.heroes = this._heroService.heroes;
+    this.heroes = this._heroService.getHeroes();
     
   }
 
  onSelect(hero) { 
-   this.selectedHero = hero; 
-   this.isEditing = true;
-      //this.router.navigate(['hero/detail', this.selectedHero.id]);
-     // this.hero = hero; 
-   //  this._router.navigate(['/hero/detailes', hero.$key]);
-   // let link = ['/hero/detail', hero.id];
- // this.router.navigate(link);
+     this._router.navigate(['/hero/detailes', hero.$key]);
     
   } 
 }

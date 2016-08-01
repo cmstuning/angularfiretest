@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Hero } from './hero'
 
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+
 
 @Injectable()
 export class HeroService {
+  afPath:string = '/heroes/';
 //modifiedHero;
   heroes: FirebaseListObservable<any[]>;
-  hero: FirebaseListObservable<any[]>;
-  constructor(af: AngularFire) {
-  this.heroes = af.database.list('/heroes');
-  //this.hero = af.database.list('/heroes');
-//  this.heroes = af.database.list('');
+  selectedHero: FirebaseObjectObservable<any[]>;
+  constructor(private af: AngularFire) {
+      
+  this.heroes = af.database.list(this.afPath);
+
   }
-  
+ 
 addHero(newHero: Hero) {
     this.heroes.push({ name: newHero.name });
   }
@@ -25,10 +27,12 @@ addHero(newHero: Hero) {
     delete modifiedHero.$key;
     this.heroes.update(key,  modifiedHero );
   }
-getHero(id: number) {
-  //return this.getHeroes()
-  //           .then(heroes => heroes.find(hero => hero.id === id));
+getHero(id: string) {
+   return this.af.database.object(this.afPath+id);
+ 
 }
- // constructor() {}
+getHeroes() {
+return this.heroes;
+}
 
 }

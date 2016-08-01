@@ -1,63 +1,50 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Hero } from './hero';
-import { ActivatedRoute } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 import { HeroService } from './hero.service';
-import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 
 
 
 @Component({
   moduleId: module.id,
   selector: 'app-hero-detail',
- // templateUrl: 'hero-detail.component.html',
- template: `
+  templateUrl: 'hero-detail.component.html',
+ /*template: `
   <div >
-  {{selectedHero  | async | json}}
+  {{selectedHero?.name}}
   </div>
-  <input type="text" #newname placeholder="Name" />
-  <input type="text" #newsize placeholder="Size" />
-  <br />
-  <button (click)="save(newname.value)">Set Name</button>
-  <button (click)="update(newsize.value)">Update Size</button>
-  <button (click)="delete()">Delete</button>
-  `,
+  `,*/
   
 })
 export class HeroDetailComponent implements OnInit, OnDestroy {
 
-  //@Input()
-  selectedHero: FirebaseObjectObservable<any[]>;
- // selectedHero: Hero; // note, that I changed name
-  sub:any;
+sub:any;
+selectedHero:Hero = {name: "", $key: ""}
 
-  constructor(
- //   private heroService: HeroService,
-  private route: ActivatedRoute,
-  af: AngularFire
-  ){
-    this.route.params.subscribe(params => {
-      let id = params['id'];
-     // this.selectedHero = af.database.list('/heroes/-KNWNw61A0Ij1HuX_ut4');
-       console.log(id);
-    });
-    this.selectedHero = af.database.object('/heroes/-KNaXgtfq-UizUn9n8xZ');
-    
-  /*   this.selectedHero = af.database.list('/heroes', {
-  query: {
-key: id
-  }
-}); */
+  constructor(private _route: ActivatedRoute, private _heroService: HeroService, private _router: Router){
   }
 ngOnInit() { 
-  console.log(this.selectedHero);
-  /*  this.sub = this.route.params.subscribe(params => {
-      let id = +params['id'];
-      this.heroService.getHero(id)
-        .then(hero => this.selectedHero = hero); 
-    }); */
+  this.sub = this._route.params.subscribe(params => {
+      let id = params['id'];
+     
+      this._heroService.getHero(id).subscribe(
+        selectedHero => this.selectedHero = selectedHero
+      );
+      
+    });
+
   }
   ngOnDestroy() {
- // this.sub.unsubscribe();
+ this.sub.unsubscribe();
 }
 
+updateHero(selectedHero) {
+  this._heroService.updateHero(selectedHero.$key, selectedHero);
+  this._router.navigate(['/heroes']);
+   
+  }
+  deleteHero(key: string) {    
+    this._heroService.deleteHero(key); 
+    this._router.navigate(['/heroes']);
+  }
 }

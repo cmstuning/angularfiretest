@@ -1,11 +1,36 @@
-<div class="col-sm-4" *ngIf="selectedHero">
-  {{selectedHero.name}}
- <div *ngFor="let selected of selectedHero | async">
-  <h2>{{selected.name}} details!</h2>
-<div><label>id: </label>{{selected.id}}</div>
-<div>
-    <label>name: </label>
-    <input [(ngModel)]="selected.name" placeholder="name"/>
-</div>
-</div> 
+<div class="row">
+<div class="col-sm-6 col-sm-offset-3" >
+ 
+  <h2>Edit Hero</h2>
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Edit {{selectedHero?.name}}</div>
+  
+
+  <!-- List group -->
+  <ul class="list-group">
+    <li class="list-group-item">
+     <label>id: </label> {{selectedHero?.$key}}
+    </li>
+    <li class="list-group-item">
+<label>name: </label> {{selectedHero?.name}}
+    </li>
+  </ul>
+  <div class="panel-body">
+    <div class="form-group">
+    <div class="input-group">
+      <input type="text" class="form-control" [(ngModel)]="selectedHero.name">
+      <span class="input-group-btn">
+        <button class="btn btn-success" type="button" (click)="updateHero(selectedHero)">Save Hero!</button>
+      </span>
+    </div><!-- /input-group -->
+    </div>
+    
+    <button (click)="deleteHero(selectedHero.$key)" class="btn btn-danger btn-sm">Delete</button>
+    
   </div>
+
+</div>
+
+</div> 
+</div>
